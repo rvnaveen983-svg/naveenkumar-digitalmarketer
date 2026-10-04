@@ -1,24 +1,67 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useReveal } from "@/components/portfolio/ui";
+import { Navbar, Hero, Stats, About } from "@/components/portfolio/Top";
+import { Skills, Experience, Projects } from "@/components/portfolio/Middle";
+import { Process, Achievements, Training, EducationJourney, Insights, Contact, Footer } from "@/components/portfolio/Bottom";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "Naveen Kumar | Digital Marketing Specialist | Meta Ads & SEO";
+const DESC =
+  "Portfolio of Naveen Kumar, a Digital Marketing Specialist from Chennai specializing in Meta Ads, SEO, Social Media Marketing, Lead Generation, Content Creation and AI Marketing.";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      name: "Naveen Kumar",
+      jobTitle: "Digital Marketing Specialist",
+      email: "mailto:rvnaveen983@gmail.com",
+      telephone: "+91-6382700550",
+      address: { "@type": "PostalAddress", addressLocality: "Chennai", addressRegion: "Tamil Nadu", addressCountry: "IN" },
+      sameAs: ["https://www.linkedin.com/in/naveen-r-581179354/"],
+      knowsAbout: ["Meta Ads", "SEO", "Social Media Marketing", "Lead Generation", "Content Creation", "AI Marketing"],
+    },
+    { "@type": "WebSite", name: "Naveen Kumar Portfolio", description: DESC },
+  ],
+};
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESC },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESC },
+      { property: "og:type", content: "profile" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESC },
+    ],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(schema) }],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  useReveal();
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <Stats />
+        <About />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Process />
+        <Achievements />
+        <Training />
+        <EducationJourney />
+        <Insights />
+        <Contact />
+      </main>
+      <Footer />
+    </>
   );
 }
